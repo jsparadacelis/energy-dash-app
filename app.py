@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 
-
+DATA_FILEPAHTH: str = "datos_energia.csv"
 
 app = dash.Dash(
     __name__,
@@ -20,8 +20,11 @@ app.config.suppress_callback_exceptions = True
 
 
 # Load data from csv
-def load_data():
-    # To do: Completar la función 
+def load_data() -> pd.DataFrame:
+    filepath = DATA_FILEPAHTH
+    data = pd.read_csv(filepath, index_col="time")
+    data.index = pd.to_datetime(data.index, format="%Y-%m-%d %H:%M:%S")
+    return data 
     
 
 # Cargar datos
@@ -240,4 +243,4 @@ def update_output_div(date, hour, proy):
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)
